@@ -17,11 +17,20 @@ function convertPokeApiDetailToPokemon(pokeDetail) {
     return pokemon
 }
 
-pokeApi.getPokemonDetail = (pokemon) => {
-    return fetch(pokemon.url)
-        .then((response) => response.json())
-        .then(convertPokeApiDetailToPokemon)
-}
+pokeApi.getPokemonDetail = async (pokemon) => {
+    try {
+        const response = await fetch(pokemon.url);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch details for ${pokemon.name}`);
+        }
+
+        const pokemonDetail = await response.json();
+        return convertPokeApiDetailToPokemon(pokemonDetail);
+    } catch (error) {
+        console.error('Error fetching Pokemon details:', error.message);
+        throw error; // Re-throw the error for further handling if necessary
+    }
+};
 
 pokeApi.getPokemons = (offset = 0, limit = 5) => {
     const url = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
