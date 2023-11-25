@@ -30,7 +30,7 @@ pokeApi.getPokemonDetail = async (pokemon) => {
         console.error('Error fetching Pokemon details:', error.message);
         throw error; // Re-throw the error for further handling if necessary
     }
-};
+}
 
 pokeApi.getPokemons = (offset = 0, limit = 5) => {
     const url = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
